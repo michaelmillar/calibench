@@ -4,6 +4,8 @@
 <h1 align="center">calibench</h1>
 <p align="center">One-line uncertainty audit for ML models.</p>
 
+https://github.com/user-attachments/assets/3931d18a-baca-4cdf-bf91-985cc9383fe0
+
 ## Quickstart
 
 ```bash
