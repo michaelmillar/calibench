@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "calibench"
 version = "0.1.0"
-description = "Calibration metrics and diagnostics for uncertainty quantification"
+description = "One-line uncertainty audit for ML models"
 readme = "README.md"
 license = "Apache-2.0"
 requires-python = ">=3.10"

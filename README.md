@@ -2,7 +2,7 @@
   <img src="assets/calibench.svg" width="80" height="80"/>
 </p>
 <h1 align="center">calibench</h1>
-<p align="center">Calibration metrics and diagnostics for uncertainty quantification.</p>
+<p align="center">One-line uncertainty audit for ML models.</p>
 
 ## Quickstart
 
@@ -12,20 +12,48 @@ pip install calibench
 
 ```python
 import numpy as np
-from calibench import miscalibration_area, reliability_diagram
+from calibench import audit
 
-predicted_std = np.array([0.5, 1.0, 1.5, 2.0])
-residuals = np.array([0.3, -0.8, 1.2, -1.9])
+y_true = np.array([1.0, 2.5, 3.1, 4.8])
+y_pred = np.array([1.1, 2.3, 3.4, 4.6])
+y_std = np.array([0.5, 1.0, 0.8, 1.2])
 
-area = miscalibration_area(predicted_std, residuals)
-print(f"Miscalibration area = {area:.4f}")
-
-ax = reliability_diagram(predicted_std, residuals)
+report = audit(y_true, y_pred, y_std)
+print(report)
 ```
 
-## Why Calibration Matters
+```
+calibench audit
+===============
+Verdict: well-calibrated (temperature = 1.03)
 
-A model that says "I am 90% confident" should be right about 90% of the time. When predicted uncertainties do not match observed error rates, downstream decisions built on those predictions become unreliable. Calibration benchmarking measures this alignment and helps you fix it.
+                      Before       After
+ECE                   0.0320      0.0110
+Miscalibration area   0.0180      0.0060
+Sharpness             2.4100      2.5500
+Coverage @ 90%        0.8900      0.9100
+Spearman r            0.7100      0.7300
+```
+
+## What it does
+
+Pass predictions, uncertainties, and ground truth. Get back a structured report that tells you whether your uncertainty estimates are trustworthy, where they fail, and how to fix them.
+
+`audit()` runs five calibration metrics before and after automatic recalibration via temperature scaling, then returns a `Report` with a verdict, all numbers, and ready-made plots.
+
+```python
+report.plot()
+
+report.to_dict()
+
+report.to_markdown()
+```
+
+The `Report` includes a fitted `TemperatureScaler` you can apply to new predictions:
+
+```python
+calibrated_std = report.calibrator.transform(new_std)
+```
 
 ## Metrics
 

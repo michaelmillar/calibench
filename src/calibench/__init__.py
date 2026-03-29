@@ -6,6 +6,7 @@ from calibench.metrics import (
     sharpness,
     spearman_correlation,
 )
+from calibench.report import Report, audit
 from calibench.visualise import (
     calibration_curve,
     reliability_diagram,
@@ -13,6 +14,8 @@ from calibench.visualise import (
 )
 
 __all__ = [
+    "audit",
+    "Report",
     "coverage_at_confidence",
     "expected_calibration_error",
     "miscalibration_area",

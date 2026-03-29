@@ -4,6 +4,8 @@ import numpy as np
 from numpy.typing import ArrayLike
 from scipy.stats import norm, spearmanr
 
+from calibench._helpers import _observed_coverage
+
 
 def miscalibration_area(
     predicted_std: ArrayLike,
@@ -66,11 +68,3 @@ def spearman_correlation(
     return float(result.statistic)
 
 
-def _observed_coverage(
-    predicted_std: np.ndarray,
-    residuals: np.ndarray,
-    level: float,
-) -> float:
-    z = norm.ppf(0.5 + level / 2.0)
-    within = np.abs(residuals) <= z * predicted_std
-    return float(np.mean(within))

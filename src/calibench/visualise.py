@@ -6,7 +6,8 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 from numpy.typing import ArrayLike
-from scipy.stats import norm
+
+from calibench._helpers import _observed_coverage
 
 
 def reliability_diagram(
@@ -109,11 +110,3 @@ def uncertainty_vs_error_scatter(
     return ax
 
 
-def _observed_coverage(
-    predicted_std: np.ndarray,
-    residuals: np.ndarray,
-    level: float,
-) -> float:
-    z = norm.ppf(0.5 + level / 2.0)
-    within = np.abs(residuals) <= z * predicted_std
-    return float(np.mean(within))
